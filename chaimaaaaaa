@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Chaimaa ❤️</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        min-height: 100vh;
+        font-family: Georgia, "Times New Roman", serif;
+        overflow-x: hidden;
+        background:
+            radial-gradient(circle at 20% 20%, rgba(255,255,255,.8), transparent 20%),
+            linear-gradient(135deg, #ffe5ec, #ffd1dc, #f9b8ca);
+        color: #542333;
+    }
+
+    /* Floating hearts */
+    .hearts {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    .heart {
+        position: absolute;
+        bottom: -50px;
+        font-size: 22px;
+        animation: floatUp linear infinite;
+        opacity: .7;
+    }
+
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 0;
+        }
+        15% {
+            opacity: .8;
+        }
+        100% {
+            transform: translateY(-110vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    /* Pages */
+    .page {
+        min-height: 100vh;
+        width: 100%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 25px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .page.active {
+        display: flex;
+        animation: fadeIn .8s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* First page */
+    .welcome-card {
+        width: min(500px, 95vw);
+        background: rgba(255, 248, 250, .92);
+        border: 2px solid rgba(255,255,255,.9);
+        border-radius: 28px;
+        padding: 45px 25px;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(112, 35, 62, .18);
+        backdrop-filter: blur(10px);
+    }
+
+    .small-heart {
+        font-size: 45px;
+        margin-bottom: 15px;
+        animation: heartbeat 1.4s infinite;
+    }
+
+    @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.18); }
+    }
+
+    h1 {
+        font-size: clamp(32px, 8vw, 50px);
+        margin-bottom: 15px;
+        font-style: italic;
+    }
+
+    .welcome-card p {
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        position: relative;
+        min-height: 60px;
+    }
+
+    button {
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 17px;
+        padding: 14px 28px;
+        border-radius: 999px;
+        transition: .25s ease;
+    }
+
+    .yes-btn {
+        background: #c83f68;
+        color: white;
+        box-shadow: 0 8px 20px rgba(200,63,104,.25);
+    }
+
+    .yes-btn:hover {
+        transform: scale(1.07);
+        background: #ae3157;
+    }
+
+    .no-btn {
+        background: #fff;
+        color: #8a5263;
+        position: relative;
+    }
+
+    /* Letter */
+    .letter-container {
+        width: min(750px, 96vw);
+        background: #fffaf0;
+        padding: clamp(28px, 6vw, 55px);
+        border-radius: 5px;
+        box-shadow:
+            0 20px 60px rgba(77, 33, 42, .22),
+            inset 0 0 30px rgba(174, 116, 73, .08);
+        position: relative;
+    }
+
+    .letter-container::before {
+        content: "";
+        position: absolute;
+        inset: 12px;
+        border: 1px solid rgba(130, 82, 55, .25);
+        pointer-events: none;
+    }
+
+    .letter-title {
+        text-align: center;
+        font-size: clamp(34px, 8vw, 55px);
+        font-style: italic;
+        margin-bottom: 30px;
+        color: #7a3048;
+    }
+
+    .letter {
+        font-size: 18px;
+        line-height: 1.85;
+        color: #49343a;
+        position: relative;
+        z-index: 1;
+    }
+
+    .letter p {
+        margin-bottom: 20px;
+    }
+
+    .signature {
+        text-align: right;
+        font-size: 23px;
+        font-style: italic;
+        color: #8d3852;
+        margin-top: 30px;
+    }
+
+    .continue-btn {
+        display: block;
+        margin: 35px auto 0;
+        background: #c83f68;
+        color: white;
+        position: relative;
+        z-index: 2;
+    }
+
+    .continue-btn:hover {
+        transform: scale(1.05);
+    }
+
+    /* Activity page */
+    .activity-card {
+        width: min(650px, 96vw);
+        text-align: center;
+    }
+
+    .activity-card h2 {
+        font-size: clamp(34px, 8vw, 52px);
+        font-style: italic;
+        margin-bottom: 10px;
+    }
+
+    .activity-card .subtitle {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+
+    .activities {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .activity {
+        background: rgba(255, 250, 252, .93);
+        border: 2px solid transparent;
+        padding: 25px 20px;
+        border-radius: 22px;
+        cursor: pointer;
+        transition: .3s ease;
+        box-shadow: 0 10px 30px rgba(112, 35, 62, .12);
+    }
+
+    .activity:hover {
+        transform: translateY(-6px) scale(1.02);
+        border-color: #d65a7b;
+    }
+
+    .activity .emoji {
+        font-size: 42px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .activity h3 {
+        font-size: 23px;
+        margin-bottom: 5px;
+    }
+
+    .activity p {
+        font-size: 15px;
+        opacity: .75;
+    }
+
+    /* Final screen */
+    .final-card {
+        width: min(550px, 95vw);
+        text-align: center;
+        background: rgba(255, 248, 250, .94);
+        border-radius: 30px;
+        padding: 45px 25px;
+        box-shadow: 0 20px 60px rgba(112, 35, 62, .18);
+    }
+
+    .final-card .big-heart {
+        font-size: 65px;
+        animation: heartbeat 1.3s infinite;
+    }
+
+    .final-card h2 {
+        font-size: 38px;
+        margin: 15px 0;
+        font-style: italic;
+    }
+
+    .final-card p {
+        font-size: 19px;
+        line-height: 1.6;
+    }
+
+    .back-btn {
+        margin-top: 25px;
+        background: #c83f68;
+        color: white;
+    }
+
+    @media (max-width: 500px) {
+        .page {
+            padding: 15px;
+        }
+
+        .letter-container {
+            padding: 30px 23px;
+        }
+
+        .letter {
+            font-size: 16.5px;
+            line-height: 1.75;
+        }
+
+        .buttons {
+            gap: 10px;
+        }
+
+        button {
+            padding: 13px 23px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Floating hearts -->
+<div class="hearts">
+    <span class="heart" style="left:5%; animation-duration:9s; animation-delay:0s;">♡</span>
+    <span class="heart" style="left:15%; animation-duration:12s; animation-delay:2s;">♥</span>
+    <span class="heart" style="left:28%; animation-duration:10s; animation-delay:4s;">♡</span>
+    <span class="heart" style="left:42%; animation-duration:14s; animation-delay:1s;">♥</span>
+    <span class="heart" style="left:58%; animation-duration:11s; animation-delay:5s;">♡</span>
+    <span class="heart" style="left:72%; animation-duration:13s; animation-delay:3s;">♥</span>
+    <span class="heart" style="left:88%; animation-duration:10s; animation-delay:6s;">♡</span>
+</div>
+
+
+<!-- PAGE 1 -->
+<section class="page active" id="page1">
+    <div class="welcome-card">
+        <div class="small-heart">💗</div>
+
+        <h1>For My Chaimaa</h1>
+
+        <p>
+            A little letter is waiting for you...
+            <br>
+            Do you want to read it, pretty girl?
+        </p>
+
+        <div class="buttons">
+            <button class="yes-btn" onclick="openLetter()">
+                YES 💕
+            </button>
+
+            <button class="no-btn" id="noBtn">
+                NO 😈
+            </button>
+        </div>
+    </div>
+</section>
+
+
+<!-- PAGE 2 — LOVE LETTER -->
+<section class="page" id="page2">
+    <div class="letter-container">
+
+        <h2 class="letter-title">My Flower 🌷</h2>
+
+        <div class="letter">
+
+            <p>
+                After a long busy day where u were doing life, and blessing it
+                with ur espeliamical touch, letting that beautiful mind express
+                itself with those soft hands, always making the most beautiful
+                sets...
+            </p>
+
+            <p>
+                Such an amazing and artistic mind. It always feels like I'm
+                interacting with an art piece, and that's a blessing li I'm so
+                proud and so grateful to have.
+            </p>
+
+            <p>
+                The blessing of talking to you, spending seconds, minutes and
+                hours with you feels like heaven every single time wlh.
+            </p>
+
+            <p>
+                Every single time I get to swim into those brownish eyes, I
+                analyze all of that magical and whimsical things happening,
+                and it's the beautiful things that I've ever admired.
+            </p>
+
+            <p>
+                And I'll never get tired of all the beauty li you blessed me
+                with since the day li feen we started talking.
+            </p>
+
+            <p class="signature">
+                I love you mi
+                <br>
+                PEKEEENIAAA ❤️
+            </p>
+
+        </div>
+
+        <button class="continue-btn" onclick="openActivities()">
+            Okay now... choose our date 😌💕
+        </button>
+
+    </div>
+</section>
+
+
+<!-- PAGE 3 — ACTIVITIES -->
+<section class="page" id="page3">
+    <div class="activity-card">
+
+        <h2>Our next adventure? 💕</h2>
+
+        <p class="subtitle">
+            Pick what you wanna do with your favorite person 😌
+        </p>
+
+        <div class="activities">
+
+            <div class="activity" onclick="chooseActivity('Movie Night 🎬')">
+                <span class="emoji">🎬</span>
+                <h3>Movie Night</h3>
+                <p>Blanket + movie + you + me = perfect.</p>
+            </div>
+
+            <div class="activity" onclick="chooseActivity('GTA 🎮')">
+                <span class="emoji">🎮</span>
+                <h3>GTA</h3>
+                <p>Time to cause some absolutely unnecessary chaos.</p>
+            </div>
+
+            <div class="activity" onclick="chooseActivity('TikTok YAAAAY 📱')">
+                <span class="emoji">📱</span>
+                <h3>Watching you and you watching TikToks YAAAAY</h3>
+                <p>The most romantic activity known to humanity.</p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- PAGE 4 — FINAL -->
+<section class="page" id="page4">
+    <div class="final-card">
+
+        <div class="big-heart">💗</div>
+
+        <h2 id="chosenActivity">
+            Good choice 😌
+        </h2>
+
+        <p>
+            Whatever you choose, I already know I'm going to love it...
+            because it's with you.
+            <br><br>
+            Now come here, PEKEEENIAAA ❤️
+        </p>
+
+        <button class="back-btn" onclick="goBack()">
+            Choose again 💕
+        </button>
+
+    </div>
+</section>
+
+
+<script>
+
+    /* Page switching */
+    function showPage(pageNumber) {
+        document.querySelectorAll(".page").forEach(page => {
+            page.classList.remove("active");
+        });
+
+        document.getElementById("page" + pageNumber).classList.add("active");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+    function openLetter() {
+        showPage(2);
+    }
+
+    function openActivities() {
+        showPage(3);
+    }
+
+    /* THE RUNAWAY NO BUTTON 😭 */
+    const noBtn = document.getElementById("noBtn");
+
+    function moveNoButton() {
+
+        const padding = 20;
+
+        const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+        const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+        const randomX = Math.max(
+            padding,
+            Math.floor(Math.random() * maxX)
+        );
+
+        const randomY = Math.max(
+            padding,
+            Math.floor(Math.random() * maxY)
+        );
+
+        noBtn.style.position = "fixed";
+        noBtn.style.left = randomX + "px";
+        noBtn.style.top = randomY + "px";
+        noBtn.style.zIndex = "9999";
+    }
+
+    /* Desktop */
+    noBtn.addEventListener("mouseenter", moveNoButton);
+
+    /* Mobile */
+    noBtn.addEventListener("touchstart", function(e) {
+        e.preventDefault();
+        moveNoButton();
+    });
+
+    /* If she somehow clicks it 😂 */
+    noBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+        moveNoButton();
+    });
+
+
+    /* Activity selection */
+    function chooseActivity(activity) {
+        document.getElementById("chosenActivity").innerHTML =
+            "It's a date: " + activity;
+
+        showPage(4);
+    }
+
+    function goBack() {
+        showPage(3);
+    }
+
+</script>
+
+</body>
+</html>
